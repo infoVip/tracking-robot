@@ -2,7 +2,7 @@ CXXFLAGS =	-O2 -g -Wall -fmessage-length=0
 
 OBJS =		tracking-robot.o
 
-LIBS =		-lopencv_core -lopencv_contrib -lopencv_highgui -lraspicam -lraspicam_cv -lopencv_objdetect -lopencv_imgproc
+LIBS =		-lopencv_core -lopencv_contrib -lopencv_highgui -lraspicam -lraspicam_cv -lopencv_objdetect -lopencv_imgproc -lwiringPi
 
 TARGET =	tracking-robot
 
