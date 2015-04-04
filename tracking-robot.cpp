@@ -21,6 +21,8 @@ using namespace std;
 #include "opencv2/contrib/contrib.hpp"
 #include <raspicam/raspicam_cv.h>
 
+#include "StepperMotor.h"
+
 using namespace cv;
 using namespace raspicam;
 
@@ -45,74 +47,8 @@ int pinD = 6; //wiring pi pin 6 = GPIO 25 = pin 22
  */
 unsigned int t = 10;
 
-void step1() {
-	digitalWrite(pinD, 1);
-	delay(t);
-	digitalWrite(pinD, 0);
-}
-
-void step2() {
-	digitalWrite(pinD, 1);
-	digitalWrite(pinC, 1);
-	delay(t);
-	digitalWrite(pinD, 0);
-	digitalWrite(pinC, 0);
-}
-
-void step3() {
-	digitalWrite(pinC, 1);
-	delay(t);
-	digitalWrite(pinC, 0);
-}
-
-void step4() {
-	digitalWrite(pinB, 1);
-	digitalWrite(pinC, 1);
-	delay(t);
-	digitalWrite(pinB, 0);
-	digitalWrite(pinC, 0);
-}
-
-void step5() {
-	digitalWrite(pinB, 1);
-	delay(t);
-	digitalWrite(pinB, 0);
-}
-
-void step6() {
-	digitalWrite(pinA, 1);
-	digitalWrite(pinB, 1);
-	delay(t);
-	digitalWrite(pinA, 0);
-	digitalWrite(pinB, 0);
-}
-
-void step7() {
-	digitalWrite(pinA, 1);
-	delay(t);
-	digitalWrite(pinA, 0);
-}
-
-void step8() {
-	digitalWrite(pinD, 1);
-	digitalWrite(pinA, 1);
-	delay(t);
-	digitalWrite(pinD, 0);
-	digitalWrite(pinA, 0);
-}
-
 void fullRotation() {
 	clock_t begin = clock();
-	for (int i = 1; i <= 512; i++) {
-		//step1();
-		step2();
-		//step3();
-		step4();
-		//step5();
-		step6();
-		//step7();
-		step8();
-	}
 	clock_t end = clock();
 	cout << "Duration: " << end - begin << endl;
 }
@@ -122,16 +58,24 @@ void setupGPIO() {
 		cerr << "'Failed to setup wiringPi" << endl;
 		exit (EXIT_FAILURE);
 	}
-	pinMode(pinA, OUTPUT);
-	pinMode(pinB, OUTPUT);
-	pinMode(pinC, OUTPUT);
-	pinMode(pinD, OUTPUT);
+	//pinMode(pinA, OUTPUT);
+	//pinMode(pinB, OUTPUT);
+	//pinMode(pinC, OUTPUT);
+	//pinMode(pinD, OUTPUT);
 }
 
 int main(int argc, const char *argv[]) {
+	if (wiringPiSetup() == -1) {
+		cerr << "'Failed to setup wiringPi" << endl;
+		exit (EXIT_FAILURE);
+	}
+	StepperMotor motor(1, 4, 5, 6, atoi(argv[1]));
+	motor.fullRotationCW(1);
+	motor.fullRotationCCW(1);
+
 	t = atoi(argv[1]);
-	setupGPIO();
-	fullRotation();
+
+	//fullRotation();
 
 	if (argc < 2) {
 		cout << "usage: tracking-robot <threshold> [headless]" << endl;
