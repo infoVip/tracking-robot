@@ -69,9 +69,8 @@ int main(int argc, const char *argv[]) {
 		cerr << "'Failed to setup wiringPi" << endl;
 		exit (EXIT_FAILURE);
 	}
-	StepperMotor motor(1, 4, 5, 6, atoi(argv[1]));
-	motor.fullRotationCW(1);
-	motor.fullRotationCCW(1);
+	StepperMotor motor(1, 4, 5, 6, atoi(argv[1]), StepperMotor::FULL_STEP);
+	motor.performDemo();
 
 	t = atoi(argv[1]);
 
