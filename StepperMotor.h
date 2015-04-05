@@ -71,6 +71,32 @@ public:
 	void halfRotation(const int noOfHalfRotations);
 
 	/**
+	 * Causes the motor to perform quarter rotations. If the passed value
+	 * is positive the motor will rotate clockwise, if negative it will
+	 * rotate counterclockwise.
+	 *
+	 * @param noOfRotations - the amount of quarter rotations to perform
+	 */
+	void quarterRotation(const int noOfQuarterRotations);
+
+	/**
+	 * Rotates the motor by a specified angle. Note that the step angle
+	 * of the motor is 0.19 degrees in full step and wave drive methods
+	 * and 0.09 degrees in half step method.
+	 *
+	 * @param angle - the angle in degrees
+	 */
+	void angleRotation(const float angle);
+
+	/**
+	 * Moves the stepper motor by one step. Depending on the stepping method
+	 * this will move the motor by 0.19 degrees in case of full step and wave drive methods
+	 * or 0.09 degrees in half step method. If the passed value is positive the motor
+	 * will rotate clockwise, if negative it will rotate counterclockwise.
+	 */
+	void step(const int noOfSteps);
+
+	/**
 	 * Performs a demo of the various methods to move the motor.
 	 */
 	void performDemo();
@@ -93,13 +119,6 @@ private:
 
 	/** The current stepping method of this motor **/
 	SteppingMethod steppingMethod;
-
-	/**
-	 * Moves the stepper motor by one step. Depending on the stepping method
-	 * this will move the motor by 0.19 degrees in case of full step and wave drive methods
-	 * or 0.09 degrees in half step mode.
-	 */
-	void step(const int noOfSteps);
 
 	/**
 	 * Writes the motor sequence to the Raspberry Pi pins.
